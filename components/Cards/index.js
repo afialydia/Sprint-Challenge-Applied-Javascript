@@ -17,3 +17,73 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+const containMe = document.querySelector('.cards-container')
+
+axios.get('https://lambda-times-backend.herokuapp.com/articles')
+
+    .then(response => {
+        const articles = Object.keys(response.data.articles)
+        console.log(articles);
+        articles.forEach(key => {
+            console.log(response.data.articles[key])
+            response.data.articles[key].forEach(element => {
+                containMe.appendChild(createCard(element))
+            })
+        })
+
+        //     const {
+        //         articles
+        //     } = response.data;
+        //     for (let key in articles) {
+        //         console.log("response", articles[key]);
+        //         articles[key].forEach( element =>{
+        //             containMe.appendChild(createCard(element))
+        //         })
+        //     }
+    })
+    .catch(error => {
+        console.log("The data was not returned", error);
+    });
+
+
+
+// function getArticles(array) {
+//     // createCard()
+
+//     data.forEach(data => {
+//         createCard(data)
+//     })
+//     containMe.appendChild(ralph);
+
+// }
+
+// const indeX = response.data.articles;
+
+function createCard(article) {
+    const
+        cardContainer = document.createElement('div'),
+        headline = document.createElement('div'),
+        author = document.createElement('div'),
+        imgContainer = document.createElement('div'),
+        image = document.createElement('img'),
+        name = document.createElement('span');
+
+    cardContainer.appendChild(headline);
+    cardContainer.appendChild(author);
+    author.appendChild(name);
+    author.appendChild(imgContainer);
+    imgContainer.appendChild(image);
+
+    cardContainer.classList.add('card');
+    headline.classList.add('headline');
+    author.classList.add('author');
+    imgContainer.classList.add('img-container');
+
+    headline.textContent = article.headline;
+    image.src = article.authorPhoto;
+    name.textContent = article.authorName;
+
+
+    console.log(article)
+    return cardContainer;
+}
